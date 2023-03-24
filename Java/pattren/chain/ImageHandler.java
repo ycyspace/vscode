@@ -1,4 +1,4 @@
-package chainPattern;
+package pattren.chain;
 
 public class ImageHandler extends Handler {
     public ImageHandler() {
@@ -10,7 +10,6 @@ public class ImageHandler extends Handler {
         request.status = 1;
         process(request);
     }
-
 
     @Override
     boolean canHandle(Request request) {

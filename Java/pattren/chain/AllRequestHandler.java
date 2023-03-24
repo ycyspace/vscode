@@ -1,4 +1,4 @@
-package chainPattern;
+package pattren.chain;
 
 public class AllRequestHandler extends Handler {
     public AllRequestHandler() {

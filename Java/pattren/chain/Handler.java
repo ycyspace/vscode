@@ -1,4 +1,4 @@
-package chainPattern;
+package pattren.chain;
 
 public abstract class Handler {
     Handler nextHandler;
@@ -10,11 +10,11 @@ public abstract class Handler {
     /**
      * 建造者模式构建责任链
      */
-    public static class Builder{
+    public static class Builder {
         /**
          * 链表头节点
          */
-        private  final Handler baseHandler = new Handler() {
+        private final Handler baseHandler = new Handler() {
             @Override
             void handleRequest(Request request) {
             }
@@ -24,17 +24,20 @@ public abstract class Handler {
                 return false;
             }
         };
+
         public Builder() {
         }
+
         // 当前指针
         private Handler curr = baseHandler;
-        public Builder addHandler (Handler baseHandler){
+
+        public Builder addHandler(Handler baseHandler) {
             curr.nextHandler = baseHandler;
             curr = curr.nextHandler;
             return this;
         }
 
-        public Handler build(){
+        public Handler build() {
             return baseHandler.nextHandler;
         }
     }
@@ -44,10 +47,10 @@ public abstract class Handler {
      *
      * @param request
      */
-    void process(Request request){
-        if(nextHandler != null){
+    void process(Request request) {
+        if (nextHandler != null) {
             nextHandler.handle(request);
-//            nextHandler = nextHandler.nextHandler;
+            // nextHandler = nextHandler.nextHandler;
         }
     }
 
@@ -60,24 +63,26 @@ public abstract class Handler {
 
     /**
      * 启动责任链
+     * 
      * @param request
      * @return
      */
-     final void handle(Request request){
-//         nextHandler = Builder.baseHandler;
+    final void handle(Request request) {
+        // nextHandler = Builder.baseHandler;
         System.out.println(this.getClass().getSimpleName());
-        if(canHandle(request)){
+        if (canHandle(request)) {
             handleRequest(request);
-        }else {
+        } else {
             process(request);
         }
     }
 
     /**
      * 判断是否处理
+     * 
      * @param request
      * @return
      */
-    abstract boolean  canHandle(Request request);
+    abstract boolean canHandle(Request request);
 
 }

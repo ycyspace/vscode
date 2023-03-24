@@ -1,10 +1,10 @@
-package chainPattern;
+package pattren.chain;
 
 public class Client {
     public static void main(String[] args) {
         Request request1 = new Request("text", "this is  text");
-        Request request2 = new Request("image", "this is image");
-        Request request3 = new Request("video", "this is video");
+        // Request request2 = new Request("image", "this is image");
+        // Request request3 = new Request("video", "this is video");
         Handler handlerChain = new Handler.Builder()
                 .addHandler(new MyHandler())
                 .addHandler(new TextHandler())
@@ -12,14 +12,14 @@ public class Client {
                 .addHandler(new AllRequestHandler())
                 .build();
         handlerChain.handle(request1);
-//        System.out.println(request1.status);
-//        handlerChain.handle(request2);
-//        System.out.println(request2.status);
-//        handlerChain.handle(request3);
-//        System.out.println(request3.status);
+        // System.out.println(request1.status);
+        // handlerChain.handle(request2);
+        // System.out.println(request2.status);
+        // handlerChain.handle(request3);
+        // System.out.println(request3.status);
     }
 
-    public static class MyHandler extends Handler{
+    public static class MyHandler extends Handler {
 
         @Override
         void handleRequest(Request request) {
