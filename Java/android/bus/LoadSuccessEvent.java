@@ -1,4 +1,4 @@
-package bus;
+package android.bus;
 
 public class LoadSuccessEvent extends Event<LoadSuccessEvent>{
     String status;

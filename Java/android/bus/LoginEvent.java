@@ -1,4 +1,4 @@
-package bus;
+package android.bus;
 
 public class LoginEvent extends Event<LoginEvent>{
     String loString;
