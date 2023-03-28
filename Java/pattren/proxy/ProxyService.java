@@ -1,15 +1,17 @@
 package pattren.proxy;
 
 public class ProxyService implements Action{
-    private Action action;
-    public ProxyService(Action action) {
-        this.action = action;
+    private Service service;
+    public ProxyService() {
     }
 
     @Override
     public void run() {
         // TODO Auto-generated method stub
-        action.run();
+        if(service == null){
+            service = new Service();
+        }
+        service.run();
         System.out.println("this is a proxyService");
     
     }
