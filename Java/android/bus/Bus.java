@@ -1,13 +1,12 @@
-package android.bus;
+package bus;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Bus {
     private volatile static Bus instance;
-    private Map<Class<?>, Event> eventMap = new HashMap<>();
+    private Map<Class<?>, ArrayList<Observer>> eventMap = new HashMap<>();
     public static Bus getInstance(){
         if(instance == null){
             synchronized (Bus.class){
@@ -19,52 +18,35 @@ public class Bus {
         return instance;
     }
 
+
     private Bus() {
     }
-
-    public <T> void register(Observer<T> observer){
-        Type[] t = observer.getClass().getGenericInterfaces();
-        for(Type type : t){
-            ParameterizedType pt = (ParameterizedType) type;
-            Class<T> trueType = (Class<T>) pt.getActualTypeArguments()[0];
-            System.out.println("添加订阅 " + trueType.getSimpleName());
-            if(eventMap.containsKey(trueType)){
-                eventMap.get(trueType).observers.add(observer);
-            }else{
-                try {
-                    Event<T> event = (Event<T>) trueType.newInstance();
-                    if(event != null){
-                        event.observers.add(observer);
-                        eventMap.put(trueType, event);
-                    }
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+    //todo 应该可以优化
+    public <T> void register(Observer<T> observer, Class<?> clazz){
+                if(eventMap.containsKey(clazz)){
+                    eventMap.get(clazz).add(observer);
+                }else{
+                    ArrayList<Observer> observers = new ArrayList<>();
+                    observers.add(observer);
+                    eventMap.put(clazz, observers); 
                 }
-            }
-        }
     }
 
-    public <T> void unregister(Observer<T> observer){
-        Type[] t = observer.getClass().getGenericInterfaces();
-        for(Type type : t){
-            ParameterizedType pt = (ParameterizedType) type;
-            Class<T> trueType = (Class<T>) pt.getActualTypeArguments()[0];
-            System.out.println( "取消订阅 " + trueType.getSimpleName());
-            if(eventMap.containsKey(trueType)){
-                eventMap.get(trueType).observers.remove(observer);
+    public <T> void unregister(Observer<T> observer, Class<T> clazz){
+            if(eventMap.containsKey(clazz)){
+                eventMap.get(clazz).remove(observer);
             }
-        }
     }
 
     public <T> void addEvent(Class<?> clzClass, Event<T> event) {
         if(!eventMap.containsKey(clzClass)){
-            eventMap.put(clzClass, event);
+            eventMap.put(clzClass, event.observers);
         }
     }
 
     public <T> void postEvent(Event<T> event){
-        event.observers.addAll(eventMap.get(event.getClass()).observers);
+        event.observers.clear();
+        event.observers.addAll(eventMap.get(event.getClass()));
         event.notifyAllObservers();
     }
     

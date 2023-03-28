@@ -1,4 +1,4 @@
-package android.bus;
+package bus;
 
 public class LoginEvent extends Event<LoginEvent>{
     String loString;
@@ -6,9 +6,11 @@ public class LoginEvent extends Event<LoginEvent>{
     public LoginEvent(String loString, int loginCode) {
         this.loString = loString;
         this.loginCode = loginCode;
-        t = this;
     }
-    public LoginEvent() {
+    @Override
+    public LoginEvent initEvent() {
+        // TODO Auto-generated method stub
+        return this;
     }
     
 }

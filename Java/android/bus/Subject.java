@@ -1,4 +1,4 @@
-package android.bus;
+package bus;
 
 
 public interface Subject<T> {
