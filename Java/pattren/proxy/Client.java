@@ -7,11 +7,11 @@ package pattren.proxy;
  */
 public class Client {
     public static void main(String[] args) {
-        // Action action = new ProxyService();
-        // action.run();
-        ProxyFactory proxyFactory = new ProxyFactory(new Service());
-        Action proxy = (Action) proxyFactory.getInstance();
-        proxy.run();
+        Action action = new ProxyService();
+        action.run();
+        // ProxyFactory proxyFactory = new ProxyFactory(new Service());
+        // Action proxy = (Action) proxyFactory.getInstance();
+        // proxy.run();
     
     }
 }
